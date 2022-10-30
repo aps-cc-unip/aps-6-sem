@@ -1,5 +1,6 @@
-import { logger } from '@/shared/logger'
 import { Handler } from 'express'
+import chalk from 'chalk'
+import { logger } from '@/shared/logger'
 
 export const loggerMiddleware: Handler = (req, res, next) => {
   const start = Date.now()
@@ -7,21 +8,17 @@ export const loggerMiddleware: Handler = (req, res, next) => {
   const method = req.method
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
 
-  logger.info(`Request received\t${method} ${url} ${ip}`)
+  logger.info(`${method} ${url} ${ip}`)
 
   req.on('close', () => {
     const end = Date.now()
-    const duration = end - start
+    const duration = chalk.yellow(`(${end - start}ms)`)
     if (res.statusCode >= 400) {
-      logger.error(
-        `Request failed\t${method} ${url} ${ip} ${res.statusCode} ${duration}ms`
-      )
+      logger.error(`${method} ${url} ${ip} ${res.statusCode} ${duration}`)
       return
     }
 
-    logger.info(
-      `Request succeeded\t${method} ${url} ${ip} ${res.statusCode} ${duration}ms`
-    )
+    logger.info(`${method} ${url} ${ip} ${res.statusCode} ${duration}`)
   })
 
   next()

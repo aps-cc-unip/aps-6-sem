@@ -4,12 +4,15 @@ import { Link } from 'react-router-dom'
 import { noop } from '@/utils/functional'
 import { preventDefault } from '@/utils/ui'
 
+import Title from '@/components/Title'
+
 export default function Register() {
   const inputFileRef = useRef<HTMLInputElement>(null)
 
   return (
-    <div className="grid h-screen w-full place-items-center">
-      <main className="flex flex-col border p-16">
+    <div className="grid h-screen w-full place-items-center bg-gray-100">
+      <Title>APS | Registre-se</Title>
+      <main className="flex flex-col rounded bg-white p-16 shadow-xl">
         <h1 className="mb-4 text-center text-4xl font-bold tracking-tighter text-blue-700">
           Registre-se
         </h1>

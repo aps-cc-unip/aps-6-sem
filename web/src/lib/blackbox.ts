@@ -57,3 +57,47 @@ export function useBox<T extends GenericBox>(box: BlackBox<T>): T {
 
   return state
 }
+
+type ProxyState<T extends Record<string, unknown>> = T & {
+  subscribe: (fn: (state: ProxyState<T>) => void) => void
+}
+
+export function createProxy<T extends Record<string, unknown>>(
+  initial: T,
+): ProxyState<T> {
+  const subscribers: ((state: ProxyState<T>) => void)[] = []
+  return new Proxy(
+    {
+      ...initial,
+      subscribe: (fn: (state: ProxyState<T>) => void) => {
+        subscribers.push(fn)
+        return () => {
+          const index = subscribers.indexOf(fn)
+          subscribers.splice(index, 1)
+        }
+      },
+    },
+    {
+      get: (target, key) => {
+        return target[key as keyof T]
+      },
+      set: (target, key, value) => {
+        target[key as keyof T] = value
+        subscribers.forEach((fn) => fn(target))
+        return true
+      },
+    },
+  )
+}
+
+export function useProxy<T extends Record<string, unknown>>(
+  proxy: ProxyState<T>,
+): ProxyState<T> {
+  const [, setState] = useState(proxy)
+
+  useEffect(() => {
+    return proxy.subscribe(setState)
+  }, [proxy])
+
+  return proxy
+}
