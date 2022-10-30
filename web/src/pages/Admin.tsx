@@ -1,20 +1,42 @@
-import { useEffect } from 'react'
-import { useBox } from '@/lib/blackbox'
-import { adminBox, load } from '@/stores/admin'
+import { useQuery } from '@tanstack/react-query'
+import { Navigate } from 'react-router-dom'
 
+import { getInvoices } from '@/services/api/invoices'
+import { getTasks } from '@/services/api/tasks'
+import { getUsers } from '@/services/api/users'
+import { useBox } from '@/lib/blackbox'
 import { authBox } from '@/stores/auth'
+import { Role } from '@/domain/entities'
 
 import AdminEntryStatistics from '@/components/AdminEntryStatistics'
 import AdminTasksAndInvoicesStats from '@/components/AdminTasksAndInvoicesStats'
 import DashboardLayout from '@/layout/DashboardLayout'
 
 export default function Admin() {
-  const { name } = useBox(authBox)
-  const { invoices, tasks, users } = useBox(adminBox)
+  const auth = useBox(authBox)
+  const user = auth.user!
 
-  useEffect(() => {
-    load()
-  }, [])
+  const {
+    data: { invoices, tasks, users },
+  } = useQuery(
+    ['admin'],
+    async () => ({
+      invoices: await getInvoices(),
+      tasks: await getTasks(),
+      users: await getUsers(),
+    }),
+    {
+      initialData: {
+        invoices: [],
+        tasks: [],
+        users: [],
+      },
+    },
+  )
+
+  if (user.role !== Role.DIRECTOR) {
+    return <Navigate to="/home" />
+  }
 
   return (
     <DashboardLayout title="Admin">

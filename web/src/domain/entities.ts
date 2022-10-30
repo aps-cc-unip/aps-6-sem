@@ -18,6 +18,8 @@ export type User = {
   id: number
   name: string
   email: string
+  department: string
+  role: Role
   tasks: Task[]
 }
 

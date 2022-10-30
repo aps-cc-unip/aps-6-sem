@@ -5,16 +5,16 @@ import { getTasks } from '@/services/api/tasks'
 import DashboardLayout from '@/layout/DashboardLayout'
 
 export default function Tasks() {
-  const { data, isLoading, isError } = useQuery(['tasks'], getTasks)
+  const { data: tasks } = useQuery(['tasks'], getTasks, {
+    initialData: [],
+  })
 
   return (
     <DashboardLayout title="Tarefas">
       <h1 className="mb-2 text-4xl font-bold tracking-tighter">Tarefas</h1>
       <p className="mb-8">Confira a listagem de tarefas abaixo</p>
-      {isLoading && <p>Carregando...</p>}
-      {isError && <p>Erro ao carregar tarefas</p>}
-      {data && (
-        <table className="w-full overflow-hidden rounded bg-white shadow-xl">
+      {tasks && (
+        <table className="mb-4 w-full overflow-hidden rounded bg-white shadow-xl">
           <thead>
             <tr className="bg-gradient-to-r from-sky-500 to-blue-600 text-left font-normal text-white">
               <th className="px-4 py-2">Finalizada</th>
@@ -25,7 +25,7 @@ export default function Tasks() {
             </tr>
           </thead>
           <tbody className="text-sm">
-            {data
+            {tasks
               .sort((a, b) => +(new Date(a.createdAt) > new Date(b.createdAt)))
               .sort((a) => (a.completed ? 1 : -1))
               .map((task) => (

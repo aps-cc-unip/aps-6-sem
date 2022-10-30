@@ -6,6 +6,7 @@ import {
   RectangleStackIcon,
   BanknotesIcon,
   UserGroupIcon,
+  UserPlusIcon,
 } from '@heroicons/react/24/outline'
 
 export default function DashboardSidenav() {
@@ -20,6 +21,7 @@ export default function DashboardSidenav() {
       <SidenavLink icon={RectangleStackIcon} title="Tarefas" link="/tasks" />
       <SidenavLink icon={UserGroupIcon} title="Usuários" link="/users" />
       <SidenavLink icon={BanknotesIcon} title="Faturas" link="/invoices" />
+      <SidenavLink icon={UserPlusIcon} title="Admin" link="/admin" />
       <SidenavLink
         icon={ArrowRightOnRectangleIcon}
         className="mt-auto"

@@ -3,7 +3,8 @@ import { useBox } from '@/lib/blackbox'
 import { authBox } from '@/stores/auth'
 
 export default function Home() {
-  const { name } = useBox(authBox)
+  const auth = useBox(authBox)
+  const { name } = auth.user!
 
   return (
     <DashboardLayout title="Home">

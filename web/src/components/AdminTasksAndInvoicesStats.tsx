@@ -29,7 +29,7 @@ export default function AdminTasksAndInvoicesStats({
         <h1 className="mb-2 text-3xl font-bold tracking-tighter">Tarefas</h1>
         <p className="mb-4">
           Porcentagem de tarefas concluídas:{' '}
-          {((tasks.filter((t) => t.completed).length / tasks.length) * 100)
+          {((tasks.filter((t) => t.completed).length / tasks.length) * 100 || 0)
             .toFixed(2)
             .replace('.', ',')}
           %
@@ -70,7 +70,9 @@ export default function AdminTasksAndInvoicesStats({
         <h1 className="mb-2 text-3xl font-bold tracking-tighter">Faturas</h1>
         <p className="mb-4">
           Porcentagem de faturas pendentes:{' '}
-          {((invoices.filter((t) => t.paid).length / invoices.length) * 100)
+          {(
+            (invoices.filter((t) => t.paid).length / invoices.length) * 100 || 0
+          )
             .toFixed(2)
             .replace('.', ',')}
           %

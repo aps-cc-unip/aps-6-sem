@@ -1,28 +1,101 @@
-import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Routes, Route, useNavigate } from 'react-router-dom'
+import { useBox } from '@/lib/blackbox'
+
+import { getUsers } from '@/services/api/users'
+import { authBox, setToken, setUser, setValidating } from '@/stores/auth'
+import { getJwtToken, setJwtToken } from '@/services/storage/auth'
 
 import Login from '@/pages/Login'
 import NotFound from '@/pages/NotFound'
+import PrivateRoute from '@/routes/PrivateRoute'
 import Loading from '@/components/Loading'
 
 const Register = React.lazy(() => import('@/pages/Register'))
 const Admin = React.lazy(() => import('@/pages/Admin'))
 const Home = React.lazy(() => import('@/pages/Home'))
 const Tasks = React.lazy(() => import('@/pages/Tasks'))
+const Users = React.lazy(() => import('@/pages/Users'))
+const Invoices = React.lazy(() => import('@/pages/Invoices'))
 
 export default function Router() {
+  const auth = useBox(authBox)
+  const navigate = useNavigate()
+
+  const revalidateAuthState = async (token: string) => {
+    try {
+      const users = await getUsers()
+
+      const user = users[0]
+
+      setUser(user)
+      setToken(token)
+      navigate('/home')
+    } finally {
+      setValidating(false)
+    }
+  }
+
+  useEffect(() => {
+    setJwtToken('fucking_hell_what_the_fuck')
+
+    const token = getJwtToken()
+
+    if (token) {
+      setValidating(true)
+      revalidateAuthState(token)
+    }
+  }, [])
+
+  if (auth.validating) {
+    return <Loading />
+  }
+
   return (
-    <React.Suspense fallback={<Loading />}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </React.Suspense>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="*" element={<NotFound />} />
+      <Route
+        path="/home"
+        element={
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <PrivateRoute>
+            <Admin />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/tasks"
+        element={
+          <PrivateRoute>
+            <Tasks />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/users"
+        element={
+          <PrivateRoute>
+            <Users />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/invoices"
+        element={
+          <PrivateRoute>
+            <Invoices />
+          </PrivateRoute>
+        }
+      />
+    </Routes>
   )
 }
