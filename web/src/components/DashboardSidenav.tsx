@@ -16,12 +16,16 @@ export default function DashboardSidenav() {
         icon={HomeIcon}
         title="Dashboard"
         className="bg-gradient-to-br from-sky-400 to-blue-600"
-        link="/home"
+        link="/app/home"
       />
-      <SidenavLink icon={RectangleStackIcon} title="Tarefas" link="/tasks" />
-      <SidenavLink icon={UserGroupIcon} title="Usuários" link="/users" />
-      <SidenavLink icon={BanknotesIcon} title="Faturas" link="/invoices" />
-      <SidenavLink icon={UserPlusIcon} title="Admin" link="/admin" />
+      <SidenavLink
+        icon={RectangleStackIcon}
+        title="Tarefas"
+        link="/app/tasks"
+      />
+      <SidenavLink icon={UserGroupIcon} title="Usuários" link="/app/users" />
+      <SidenavLink icon={BanknotesIcon} title="Faturas" link="/app/invoices" />
+      <SidenavLink icon={UserPlusIcon} title="Admin" link="/app/admin" />
       <SidenavLink
         icon={ArrowRightOnRectangleIcon}
         className="mt-auto"

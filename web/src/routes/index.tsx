@@ -30,7 +30,7 @@ export default function Router() {
 
       setUser(user)
       setToken(token)
-      navigate('/home')
+      navigate('/app/home')
     } finally {
       setValidating(false)
     }
@@ -55,9 +55,8 @@ export default function Router() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="*" element={<NotFound />} />
       <Route
-        path="/home"
+        path="/app/home"
         element={
           <PrivateRoute>
             <Home />
@@ -65,7 +64,7 @@ export default function Router() {
         }
       />
       <Route
-        path="/admin"
+        path="/app/admin"
         element={
           <PrivateRoute>
             <Admin />
@@ -73,7 +72,7 @@ export default function Router() {
         }
       />
       <Route
-        path="/tasks"
+        path="/app/tasks"
         element={
           <PrivateRoute>
             <Tasks />
@@ -81,7 +80,7 @@ export default function Router() {
         }
       />
       <Route
-        path="/users"
+        path="/app/users"
         element={
           <PrivateRoute>
             <Users />
@@ -89,13 +88,14 @@ export default function Router() {
         }
       />
       <Route
-        path="/invoices"
+        path="/app/invoices"
         element={
           <PrivateRoute>
             <Invoices />
           </PrivateRoute>
         }
       />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }

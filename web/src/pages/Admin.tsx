@@ -35,7 +35,7 @@ export default function Admin() {
   )
 
   if (user.role !== Role.DIRECTOR) {
-    return <Navigate to="/home" />
+    return <Navigate to="/app/home" />
   }
 
   return (

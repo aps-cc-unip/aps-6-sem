@@ -1,13 +1,40 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 
-import { noop } from '@/utils/functional'
 import { preventDefault } from '@/utils/ui'
 
 import Title from '@/components/Title'
+import { createBox, useBox } from '@/lib/blackbox'
+import { register } from '@/services/auth'
+
+const registerFormBox = createBox({
+  name: '',
+  email: '',
+  password: null as Maybe<File>,
+})
+
+function setPassword(password: Maybe<File>) {
+  registerFormBox.set({
+    password,
+  })
+}
 
 export default function Register() {
+  const form = useBox(registerFormBox)
   const inputFileRef = useRef<HTMLInputElement>(null)
+
+  const handleSubmit = async () => {
+    const form = document.forms[0]!
+    const data = new FormData(form)
+
+    console.log(Object.fromEntries(data.entries()))
+
+    // try {
+    //   await register(data)
+    // } catch (err) {
+    //   alert(String(err))
+    // }
+  }
 
   return (
     <div className="grid h-screen w-full place-items-center bg-gray-100">
@@ -17,7 +44,7 @@ export default function Register() {
           Registre-se
         </h1>
         <p className="mb-8 text-center">Registre-se no formulário abaixo</p>
-        <form onSubmit={preventDefault(noop)} className="grid gap-4">
+        <form onSubmit={preventDefault(handleSubmit)} className="grid gap-4">
           <div className="grid gap-2">
             <label htmlFor="name">Nome:</label>
             <input
@@ -43,10 +70,17 @@ export default function Register() {
           <div className="grid gap-2">
             <label htmlFor="password">Senha (Foto):</label>
             <button
-              className="rounded border-2 border-dashed py-2 text-gray-400"
+              type="button"
+              className={
+                form.password
+                  ? 'rounded border border-blue-600 py-2 text-blue-600 transition ease-in-out hover:bg-blue-600 hover:text-white hover:shadow-lg hover:shadow-blue-300'
+                  : 'rounded border-2 border-dashed py-2 text-gray-400'
+              }
               onClick={() => inputFileRef.current!.click()}
             >
-              Você ainda não fez o upload
+              {form.password
+                ? form.password.name
+                : 'Você ainda não fez o upload'}
             </button>
             <input
               type="file"
@@ -55,6 +89,7 @@ export default function Register() {
               id="password"
               name="password"
               accept="image/png,image/jpeg"
+              onChange={(event) => setPassword(event.target.files![0])}
               ref={inputFileRef}
             />
           </div>

@@ -7,11 +7,17 @@ type BlackBox<T extends GenericBox> = {
   set: (value: Partial<T>) => void
   subscribe: (subscriber: Subscriber<T>) => () => void
   update: (updater: (value: T) => T) => void
+  reset: () => void
 }
 
 export function createBox<T extends GenericBox>(value: T): BlackBox<T> {
   let inner = value
+  const zero = structuredClone(value)
   const subscribers: Array<Subscriber<T>> = []
+
+  const reset = () => {
+    inner = zero
+  }
 
   const get = () => {
     return inner
@@ -45,6 +51,7 @@ export function createBox<T extends GenericBox>(value: T): BlackBox<T> {
     set,
     update,
     subscribe,
+    reset,
   }
 }
 

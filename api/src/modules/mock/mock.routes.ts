@@ -17,6 +17,38 @@ const makeUser = () => ({
   updatedAt: faker.date.recent(),
 })
 
+/*
+public class User {
+  @Id()
+  @GeneratedValue(strategy=AUTO)
+  private String id;
+
+  @Column(nullable = false)
+  private String name;
+
+  @Unique()
+  @Column(nullable = false)
+  private String email;
+
+  @Column(nullable = false)
+  private String department;
+
+  @Column(nullable = false)
+  private String role;
+
+  @Column(nullable = false)
+  @CreationTimestamp()
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date createdAt;
+
+  @Column(nullable = false)
+  @UpdateTimestamp()
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date updatedAt;
+}
+
+*/
+
 const makeTask = () => ({
   id: faker.datatype.uuid(),
   title: faker.lorem.sentence(4),

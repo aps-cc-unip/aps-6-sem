@@ -17,7 +17,7 @@ export default function Users() {
   })
 
   if (user.role !== Role.DIRECTOR) {
-    return <Navigate to="/home" />
+    return <Navigate to="/app/home" />
   }
 
   return (

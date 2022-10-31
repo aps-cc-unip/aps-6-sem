@@ -18,7 +18,7 @@ export default function Users() {
   })
 
   if (![Role.ADMIN, Role.DIRECTOR].includes(user.role)) {
-    return <Navigate to="/home" />
+    return <Navigate to="/app/home" />
   }
 
   return (
@@ -31,7 +31,6 @@ export default function Users() {
             <tr className="bg-gradient-to-r from-sky-500 to-blue-600 text-white">
               <th className="px-4 py-2 text-left">Nome</th>
               <th className="px-4 py-2 text-left">Email</th>
-              <th className="px-4 py-2 text-left">Departamento</th>
               <th className="px-4 py-2 text-left">Cargo</th>
             </tr>
           </thead>
@@ -40,7 +39,6 @@ export default function Users() {
               <tr key={user.id}>
                 <td className="border-r px-4 py-2">{user.name}</td>
                 <td className="border-r px-4 py-2">{user.email}</td>
-                <td className="px-4 py-2">{user.department}</td>
                 <td className="px-4 py-2">
                   {user.role === Role.ADMIN
                     ? 'Administrador'
