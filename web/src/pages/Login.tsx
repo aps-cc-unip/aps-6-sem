@@ -7,8 +7,11 @@ import { loginFormBox, setEmail, setPassword } from '@/stores/login'
 
 import Title from '@/components/Title'
 import { login } from '@/services/auth'
+import { setJwtToken } from '@/services/storage/auth'
+import { revalidateAuthState } from '@/stores/auth'
 
 export default function Login() {
+  const navigate = useNavigate()
   const form = useBox(loginFormBox)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -17,12 +20,17 @@ export default function Login() {
     const form = document.forms[0]!
     const formData = new FormData(form)
 
-    console.log(Object.fromEntries(formData.entries()))
+    try {
+      const data = await login(formData)
+      const token = data.token
 
-    const data = await login(formData)
-    console.log(data)
+      setJwtToken(token)
+      revalidateAuthState(token, () => navigate('/app/home'))
 
-    loginFormBox.reset()
+      loginFormBox.reset()
+    } catch (err) {
+      alert(String(err))
+    }
   }
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   ArrowRightOnRectangleIcon,
   HomeIcon,
@@ -8,8 +8,20 @@ import {
   UserGroupIcon,
   UserPlusIcon,
 } from '@heroicons/react/24/outline'
+import { preventDefault } from '@/utils/ui'
+import { noop } from '@/utils/functional'
+import { removeJwtToken } from '@/services/storage/auth'
+import { authBox } from '@/stores/auth'
 
 export default function DashboardSidenav() {
+  const navigate = useNavigate()
+
+  const handleSignOut = () => {
+    removeJwtToken()
+    navigate('/')
+    authBox.reset()
+  }
+
   return (
     <nav className="flex h-full w-16 flex-col bg-gray-900">
       <SidenavLink
@@ -30,6 +42,7 @@ export default function DashboardSidenav() {
         icon={ArrowRightOnRectangleIcon}
         className="mt-auto"
         title="Sair"
+        onClick={handleSignOut}
         link="/"
       />
     </nav>
@@ -41,6 +54,7 @@ type SidenavLinkProps = {
   title: string
   link: string
   className?: string
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
 }
 
 const SidenavLink: React.FC<SidenavLinkProps> = ({
@@ -48,11 +62,13 @@ const SidenavLink: React.FC<SidenavLinkProps> = ({
   link,
   className,
   title,
+  onClick,
 }) => {
   return (
     <Link
       to={link}
       title={title}
+      onClick={preventDefault(onClick || noop)}
       className={'grid h-16 w-16 place-items-center ' + className}
     >
       {<Icon className="h-8 w-8 text-white" />}

@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 import { preventDefault } from '@/utils/ui'
 
@@ -21,6 +21,7 @@ function setPassword(password: Maybe<File>) {
 
 export default function Register() {
   const form = useBox(registerFormBox)
+  const navigate = useNavigate()
   const inputFileRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = async () => {
@@ -29,11 +30,12 @@ export default function Register() {
 
     console.log(Object.fromEntries(data.entries()))
 
-    // try {
-    //   await register(data)
-    // } catch (err) {
-    //   alert(String(err))
-    // }
+    try {
+      await register(data)
+      navigate('/')
+    } catch (err) {
+      alert(String(err))
+    }
   }
 
   return (

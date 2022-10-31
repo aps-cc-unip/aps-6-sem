@@ -1,5 +1,6 @@
 import { Role, User } from '@/domain/entities'
 import { createBox } from '@/lib/blackbox'
+import { getUsers } from '@/services/api/users'
 
 type AuthBoxState = {
   user: Maybe<User>
@@ -29,4 +30,24 @@ export const setValidating = (validating: boolean) => {
   authBox.set({
     validating,
   })
+}
+
+export const revalidateAuthState = async (
+  token: string,
+  callback?: () => void,
+) => {
+  try {
+    const users = await getUsers()
+
+    const user = users[0]
+
+    setUser(user)
+    setToken(token)
+
+    if (callback) {
+      callback()
+    }
+  } finally {
+    setValidating(false)
+  }
 }

@@ -3,7 +3,13 @@ import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useBox } from '@/lib/blackbox'
 
 import { getUsers } from '@/services/api/users'
-import { authBox, setToken, setUser, setValidating } from '@/stores/auth'
+import {
+  authBox,
+  revalidateAuthState,
+  setToken,
+  setUser,
+  setValidating,
+} from '@/stores/auth'
 import { getJwtToken, setJwtToken } from '@/services/storage/auth'
 
 import Login from '@/pages/Login'
@@ -22,28 +28,12 @@ export default function Router() {
   const auth = useBox(authBox)
   const navigate = useNavigate()
 
-  const revalidateAuthState = async (token: string) => {
-    try {
-      const users = await getUsers()
-
-      const user = users[0]
-
-      setUser(user)
-      setToken(token)
-      navigate('/app/home')
-    } finally {
-      setValidating(false)
-    }
-  }
-
   useEffect(() => {
-    setJwtToken('fucking_hell_what_the_fuck')
-
     const token = getJwtToken()
 
     if (token) {
       setValidating(true)
-      revalidateAuthState(token)
+      revalidateAuthState(token, () => navigate('/app/home'))
     }
   }, [])
 
