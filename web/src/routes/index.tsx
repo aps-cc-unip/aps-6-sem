@@ -2,20 +2,14 @@ import React, { useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useBox } from '@/lib/blackbox'
 
-import { getUsers } from '@/services/api/users'
-import {
-  authBox,
-  revalidateAuthState,
-  setToken,
-  setUser,
-  setValidating,
-} from '@/stores/auth'
-import { getJwtToken, setJwtToken } from '@/services/storage/auth'
+import { authBox, revalidateAuthState, setValidating } from '@/stores/auth'
+import { getJwtToken } from '@/services/storage/auth'
 
 import Login from '@/pages/Login'
 import NotFound from '@/pages/NotFound'
 import PrivateRoute from '@/routes/PrivateRoute'
 import Loading from '@/components/Loading'
+import Locations from '@/pages/Locations'
 
 const Register = React.lazy(() => import('@/pages/Register'))
 const Admin = React.lazy(() => import('@/pages/Admin'))
@@ -33,7 +27,9 @@ export default function Router() {
 
     if (token) {
       setValidating(true)
-      revalidateAuthState(token, () => navigate('/app/home'))
+      revalidateAuthState(token)
+    } else {
+      setValidating(false)
     }
   }, [])
 
@@ -45,6 +41,14 @@ export default function Router() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route
+        path="/app/locations"
+        element={
+          <PrivateRoute>
+            <Locations />
+          </PrivateRoute>
+        }
+      />
       <Route
         path="/app/home"
         element={

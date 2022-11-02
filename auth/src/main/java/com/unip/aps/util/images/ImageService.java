@@ -14,6 +14,8 @@ import javax.imageio.ImageIO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.unip.aps.util.functional.Result;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j()
@@ -21,24 +23,25 @@ import lombok.extern.slf4j.Slf4j;
 public class ImageService {
   static Pattern imagePattern = Pattern.compile("image/(jpg|jpeg|png)");
 
-  public boolean isValid(MultipartFile image) {
+  public Result<Boolean, Exception> isValid(MultipartFile image) {
     if (image == null) {
-      return false;
+      return Result.err(new Exception("An image is required"));
     }
 
     if (image.getContentType() == null) {
-      return false;
+      return Result.err(new Exception("The provided mimetype for the image is not a valid image"));
     }
 
     var matcher = imagePattern.matcher(image.getContentType());
 
     if (!matcher.matches()) {
-      return false;
+      return Result.err(new Exception("The provided mimetype for the image is not a valid image"));
     }
 
-    return true;
+    return Result.ok(true);
   }
 
+  @SuppressWarnings("null")
   public String getImageFilename(MultipartFile image) {
     var imageId = UUID.randomUUID().toString();
     var filename = imageId + "." + image.getContentType().split("/")[1];

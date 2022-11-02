@@ -1,6 +1,6 @@
-import { Role, User } from '@/domain/entities'
+import { User } from '@/domain/entities'
 import { createBox } from '@/lib/blackbox'
-import { getUsers } from '@/services/api/users'
+import { getProfile } from '@/services/api/users'
 
 type AuthBoxState = {
   user: Maybe<User>
@@ -10,7 +10,7 @@ type AuthBoxState = {
 
 export const authBox = createBox<AuthBoxState>({
   user: null,
-  validating: false,
+  validating: true,
   token: null,
 })
 
@@ -21,6 +21,7 @@ export const setToken = (token: string) => {
 }
 
 export const setUser = (user: User) => {
+  console.log(user.role)
   authBox.set({
     user,
   })
@@ -37,9 +38,7 @@ export const revalidateAuthState = async (
   callback?: () => void,
 ) => {
   try {
-    const users = await getUsers()
-
-    const user = users[0]
+    const user = await getProfile()
 
     setUser(user)
     setToken(token)
@@ -47,7 +46,12 @@ export const revalidateAuthState = async (
     if (callback) {
       callback()
     }
+
+    console.log('Resetting validation')
+    setValidating(false)
   } finally {
+    console.log('Resetting validation')
+
     setValidating(false)
   }
 }

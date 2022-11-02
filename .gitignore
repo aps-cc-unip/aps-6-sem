@@ -1,1 +1,4 @@
 postgres
+uploads/*.png
+uploads/*.jpg
+uploads/*.jpeg

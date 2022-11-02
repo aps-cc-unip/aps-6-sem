@@ -7,6 +7,7 @@ import {
   BanknotesIcon,
   UserGroupIcon,
   UserPlusIcon,
+  MapPinIcon,
 } from '@heroicons/react/24/outline'
 import { preventDefault } from '@/utils/ui'
 import { noop } from '@/utils/functional'
@@ -37,6 +38,11 @@ export default function DashboardSidenav() {
       />
       <SidenavLink icon={UserGroupIcon} title="Usuários" link="/app/users" />
       <SidenavLink icon={BanknotesIcon} title="Faturas" link="/app/invoices" />
+      <SidenavLink
+        icon={MapPinIcon}
+        title="Propriedades"
+        link="/app/locations"
+      />
       <SidenavLink icon={UserPlusIcon} title="Admin" link="/app/admin" />
       <SidenavLink
         icon={ArrowRightOnRectangleIcon}
@@ -68,8 +74,8 @@ const SidenavLink: React.FC<SidenavLinkProps> = ({
     <Link
       to={link}
       title={title}
-      onClick={preventDefault(onClick || noop)}
-      className={'grid h-16 w-16 place-items-center ' + className}
+      onClick={onClick && onClick}
+      className={'grid h-16 w-16 place-items-center ' + className || ''}
     >
       {<Icon className="h-8 w-8 text-white" />}
     </Link>

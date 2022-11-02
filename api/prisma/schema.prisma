@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+  DIRECTOR
+
+  @@map(name: "roles")
+}
+
+model User {
+  id       BigInt @id()
+  email    String @unique() @db.VarChar(255)
+  name     String @db.VarChar(255)
+  password String @db.VarChar(255)
+  role     Role   @default(USER)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt DateTime @updatedAt() @map("updated_at") @db.Timestamp(6)
+
+  tasks Task[]
+
+  @@map(name: "users")
+}
+
+model Task {
+  id          BigInt  @id() @default(autoincrement())
+  title       String  @db.VarChar(255)
+  description String  @db.VarChar(255)
+  completed   Boolean @default(false)
+  userId      BigInt  @map("user_id")
+  user        User    @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt DateTime @updatedAt() @map("updated_at") @db.Timestamp(6)
+
+  @@map(name: "tasks")
+}
+
+model Invoice {
+  id          BigInt   @id() @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String   @db.VarChar(255)
+  amount      Float
+  paid        Boolean  @default(false)
+  department  String   @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamp(6)
+
+  @@map(name: "invoices")
+}
+
+model Incident {
+  id          BigInt   @id() @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String   @db.VarChar(255)
+  latitude    Float
+  longitude   Float
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamp(6)
+
+  @@map(name: "incidents")
+}

@@ -6,3 +6,9 @@ export const getUsers = async (): Promise<User[]> => {
 
   return data
 }
+
+export const getProfile = async (): Promise<User> => {
+  const { data } = await api.get('/mock/profile')
+
+  return data
+}

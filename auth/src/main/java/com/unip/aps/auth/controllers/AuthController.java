@@ -21,7 +21,7 @@ import com.unip.aps.util.HttpError;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.unip.aps.SecurityConstants;
-import com.unip.aps.auth.dto.Token;
+import com.unip.aps.auth.dto.TokenPayload;
 import com.unip.aps.users.dto.UserLoginDto;
 import com.unip.aps.users.dto.UserRegistrationDto;
 import com.unip.aps.users.services.UserService;
@@ -47,10 +47,12 @@ public class AuthController {
   public ResponseEntity<?> register(@ModelAttribute() @Valid() UserRegistrationDto userRegistrationDto)
       throws Exception {
     var image = userRegistrationDto.getPassword();
+    var imageResult = imageService.isValid(image);
 
-    if (!imageService.isValid(image)) {
+    if (imageResult.isErr()) {
+      var err = imageResult.unwrapErr();
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(new HttpError(HttpStatus.BAD_REQUEST, "Invalid image, allowed are only jpg, jpeg and png"));
+          .body(new HttpError(400, err.getMessage()));
     }
 
     var filename = imageService.getImageFilename(image);
@@ -58,7 +60,7 @@ public class AuthController {
 
     if (!imageService.saveImage(image, imagePath)) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Error saving image"));
+          .body(new HttpError(500, "Error saving image"));
     }
 
     userService.registerUser(userRegistrationDto, imagePath.toString());
@@ -75,15 +77,16 @@ public class AuthController {
     if (user == null) {
       log.warn("Could not find user with email '{}'", userLoginDto.getEmail());
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(new HttpError(HttpStatus.BAD_REQUEST, "Invalid email or password"));
+          .body(new HttpError(400, "Invalid email or password"));
     }
 
     var isValid = imageService.compareImagePassword(user.getPassword(), userLoginDto.getPassword());
 
     if (!isValid) {
       log.warn("The attempt to login user '{}' with the given password is invalid", userLoginDto.getEmail());
+
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(new HttpError(HttpStatus.BAD_REQUEST, "Invalid email or password"));
+          .body(new HttpError(400, "Invalid email or password"));
     }
 
     log.info("Successfully logged in user '{}'", userLoginDto.getEmail());
@@ -94,7 +97,7 @@ public class AuthController {
         .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
         .sign(Algorithm.HMAC512(SecurityConstants.SECRET));
 
-    var payload = new Token(token);
+    var payload = new TokenPayload(token);
 
     return ResponseEntity.status(HttpStatus.OK).body(payload);
   }
