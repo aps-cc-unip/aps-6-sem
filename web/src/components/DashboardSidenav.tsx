@@ -9,16 +9,17 @@ import {
   UserPlusIcon,
   MapPinIcon,
 } from '@heroicons/react/24/outline'
-import { preventDefault } from '@/utils/ui'
-import { noop } from '@/utils/functional'
-import { removeJwtToken } from '@/services/storage/auth'
+
 import { authBox } from '@/stores/auth'
+import { clearAuthToken } from '@/shared/axios'
+import { removeJwtToken } from '@/services/storage/auth'
 
 export default function DashboardSidenav() {
   const navigate = useNavigate()
 
   const handleSignOut = () => {
     removeJwtToken()
+    clearAuthToken()
     navigate('/')
     authBox.reset()
   }
@@ -38,11 +39,7 @@ export default function DashboardSidenav() {
       />
       <SidenavLink icon={UserGroupIcon} title="Usuários" link="/app/users" />
       <SidenavLink icon={BanknotesIcon} title="Faturas" link="/app/invoices" />
-      <SidenavLink
-        icon={MapPinIcon}
-        title="Propriedades"
-        link="/app/locations"
-      />
+      <SidenavLink icon={MapPinIcon} title="Incidentes" link="/app/incidents" />
       <SidenavLink icon={UserPlusIcon} title="Admin" link="/app/admin" />
       <SidenavLink
         icon={ArrowRightOnRectangleIcon}

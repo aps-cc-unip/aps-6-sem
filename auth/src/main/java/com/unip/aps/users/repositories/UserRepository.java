@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.unip.aps.users.models.User;
 
 @Repository()
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Integer> {
   public User findOneByEmail(String email);
 }

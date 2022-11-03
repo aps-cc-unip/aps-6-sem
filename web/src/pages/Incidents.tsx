@@ -1,7 +1,8 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { formatDate } from '@/utils/date'
+
 import DashboardLayout from '@/layout/DashboardLayout'
 import 'leaflet/dist/leaflet.css'
-import { formatDate } from '@/utils/date'
 
 const incidents = [
   {
@@ -46,7 +47,7 @@ const incidents = [
   },
 ]
 
-export default function Locations() {
+export default function Incidents() {
   return (
     <DashboardLayout title="Test">
       <h1 className="mb-2 text-4xl font-bold tracking-tighter">Propriedades</h1>

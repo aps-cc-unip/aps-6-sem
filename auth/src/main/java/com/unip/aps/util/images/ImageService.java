@@ -49,9 +49,9 @@ public class ImageService {
     return filename;
   }
 
-  public boolean saveImage(MultipartFile image, Path path) {
+  public boolean saveImage(MultipartFile image, Path basePath) {
     try {
-      Files.write(path, image.getBytes());
+      Files.write(basePath, image.getBytes());
       return true;
     } catch (Exception _exception) {
       return false;

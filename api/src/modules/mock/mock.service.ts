@@ -5,8 +5,7 @@ const makeUser = () => ({
   id: faker.datatype.uuid(),
   name: faker.name.fullName(),
   email: faker.internet.email(),
-  department: faker.commerce.department(),
-  role: faker.helpers.arrayElement(['DIRECTOR', 'ADMIN', 'USER']),
+  role: faker.helpers.arrayElement(['MINISTER', 'DIRECTOR', 'USER']),
   createdAt: faker.date.past(),
   updatedAt: faker.date.recent(),
 })
@@ -18,7 +17,7 @@ const makeTask = () => ({
   completed: faker.datatype.boolean(),
   createdAt: faker.date.past(),
   updatedAt: faker.date.between('2023-01-01', '2023-10-30'),
-  priority: faker.helpers.arrayElement(['low', 'medium', 'high']),
+  priority: faker.helpers.arrayElement(['LOW', 'MEDIUM', 'HIGH']),
 })
 
 const makeInvoices = () => ({

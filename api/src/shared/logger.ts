@@ -1,28 +1,41 @@
 import chalk from 'chalk'
+import { pid } from 'node:process'
 
-export const logger = {
-  info(...args: any) {
-    const timestamp = new Date().toISOString()
+class Logger {
+  constructor(private prefix: string) {}
+
+  info(message: string, namespace?: string) {
+    const timestamp = new Date()
+
     console.log(
-      chalk.gray(timestamp),
-      chalk.green('[INFO]'.padStart(8, ' ')),
-      ...args
+      chalk.green(`[${this.prefix}] ${pid} -`),
+      chalk.gray(timestamp.toLocaleTimeString() + '  '),
+      chalk.yellow(namespace ? `[${namespace}]` : ''),
+      chalk.green(message)
     )
-  },
-  warn(...args: any) {
-    const timestamp = new Date().toISOString()
+  }
+
+  error(message: string, namespace?: string) {
+    const timestamp = new Date()
+
     console.log(
-      chalk.gray(timestamp),
-      chalk.yellow('[WARN]'.padStart(8, ' ')),
-      ...args
+      chalk.red(`${this.prefix} ${pid}\t -`),
+      chalk.gray(timestamp.toLocaleTimeString()),
+      chalk.yellow(namespace ? `[${namespace}]` : ''),
+      chalk.red(message)
     )
-  },
-  error(...args: any) {
-    const timestamp = new Date().toISOString()
+  }
+
+  warn(message: string, namespace?: string) {
+    const timestamp = new Date()
+
     console.log(
-      chalk.gray(timestamp),
-      chalk.red('[ERROR]'.padStart(8, ' ')),
-      ...args
+      chalk.yellow(`${this.prefix} ${pid}\t -`),
+      chalk.gray(timestamp.toLocaleTimeString()),
+      chalk.yellow(namespace ? `[${namespace}]` : ''),
+      chalk.yellow(message)
     )
-  },
+  }
 }
+
+export const logger = new Logger('Application')

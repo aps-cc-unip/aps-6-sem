@@ -12,7 +12,6 @@ export default function Home() {
       <h1 className="mb-2 text-4xl font-bold tracking-tighter">
         Bem vindo, {name}.
       </h1>
-      <Link to="/test">Fuck</Link>
       <p className="mb-8">Navegue pelos recursos abaixo</p>
       <div className="mb-8 w-full rounded-lg bg-gradient-to-r from-sky-500 to-blue-600 p-16 text-white shadow-lg shadow-blue-200">
         <h2 className="mb-4 text-4xl font-bold tracking-tighter">

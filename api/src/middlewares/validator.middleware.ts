@@ -1,8 +1,9 @@
+import type { ZodRawShape, ZodObject } from 'zod'
 import { Handler } from 'express'
 
-export const validateRequestMiddleware = <T extends Zod.ZodRawShape>(
+export const validateRequestMiddleware = <T extends ZodRawShape>(
   payload: 'body' | 'query' | 'params',
-  schema: Zod.ZodObject<T>
+  schema: ZodObject<T>
 ): Handler => {
   return (req, res, next) => {
     const output = schema.safeParse(req[payload])

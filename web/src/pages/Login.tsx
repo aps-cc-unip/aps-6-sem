@@ -9,6 +9,7 @@ import Title from '@/components/Title'
 import { login } from '@/services/auth'
 import { setJwtToken } from '@/services/storage/auth'
 import { revalidateAuthState } from '@/stores/auth'
+import { setAuthToken } from '@/shared/axios'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -24,6 +25,7 @@ export default function Login() {
       const data = await login(formData)
       const token = data.token
 
+      setAuthToken(token)
       setJwtToken(token)
       revalidateAuthState(token, () => navigate('/app/home'))
 

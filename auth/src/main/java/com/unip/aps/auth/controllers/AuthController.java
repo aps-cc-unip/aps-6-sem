@@ -94,6 +94,7 @@ public class AuthController {
     var token = JWT.create()
         .withSubject(user.getEmail())
         .withSubject(user.getId().toString())
+        .withClaim("role", user.getRole().toString())
         .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
         .sign(Algorithm.HMAC512(SecurityConstants.SECRET));
 

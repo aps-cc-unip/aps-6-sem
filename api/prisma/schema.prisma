@@ -7,20 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  USER
-  ADMIN
-  DIRECTOR
-
-  @@map(name: "roles")
-}
-
 model User {
-  id       BigInt @id()
+  id       Int    @id() @default(autoincrement())
   email    String @unique() @db.VarChar(255)
   name     String @db.VarChar(255)
   password String @db.VarChar(255)
-  role     Role   @default(USER)
+  role     String @default("USER")
 
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt DateTime @updatedAt() @map("updated_at") @db.Timestamp(6)
@@ -30,13 +22,22 @@ model User {
   @@map(name: "users")
 }
 
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+
+  @@map(name: "task_priority")
+}
+
 model Task {
-  id          BigInt  @id() @default(autoincrement())
-  title       String  @db.VarChar(255)
-  description String  @db.VarChar(255)
-  completed   Boolean @default(false)
-  userId      BigInt  @map("user_id")
-  user        User    @relation(fields: [userId], references: [id])
+  id          Int          @id() @default(autoincrement())
+  title       String       @db.VarChar(255)
+  description String       @db.VarChar(255)
+  completed   Boolean      @default(false)
+  priority    TaskPriority @default(LOW)
+  userId      Int          @map("user_id")
+  user        User         @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt DateTime @updatedAt() @map("updated_at") @db.Timestamp(6)
@@ -45,7 +46,7 @@ model Task {
 }
 
 model Invoice {
-  id          BigInt   @id() @default(autoincrement())
+  id          Int      @id() @default(autoincrement())
   title       String   @db.VarChar(255)
   description String   @db.VarChar(255)
   amount      Float
@@ -58,13 +59,12 @@ model Invoice {
 }
 
 model Incident {
-  id          BigInt   @id() @default(autoincrement())
-  title       String   @db.VarChar(255)
-  description String   @db.VarChar(255)
-  latitude    Float
-  longitude   Float
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamp(6)
+  id        Int      @id() @default(autoincrement())
+  title     String   @db.VarChar(255)
+  latitude  Float
+  longitude Float
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(6)
 
   @@map(name: "incidents")
 }
