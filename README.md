@@ -105,6 +105,41 @@ npm run dev # Executa o serviço de API
 Para executar o serviço de Auth, será necessário instalar as dependências do projeto utilizando o Maven, para isso, execute:
 
 ```sh
-cd auth     # Caso você não esteja dentro da pasta da Auth
-mvn install # Instala as dependências do projeto
+cd auth                 # Caso você não esteja dentro da pasta da Auth
+mvn install -DskipTests # Instala as dependências do projeto
 ```
+
+Após instaladas as dependências, execute o projeto com o comando:
+
+```sh
+mvn clean compile exec:java # Executa o serviço de autenticação
+```
+
+### 4. Web
+
+Para executar o serviço de Web, será necessário instalar as dependências do projeto utilizando o NPM, para isso, execute:
+
+```sh
+cd web      # Caso você não esteja dentro da pasta da Web
+npm install # Instala as dependências do projeto
+```
+
+Com as dependências instaladas, execute o projeto com o comando:
+
+```sh
+npm run dev # Executa o serviço de web
+```
+
+### 5. Acessando a aplicação
+
+Cada aplicação possui um endereço específico para ser acessada, são eles:
+
+- auth - http://localhost:3210
+- api - http://localhost:3333
+- web - http://localhost:5173
+
+## Autores
+
+| ![Eder Lima](https://github.com/asynched.png?size=100) | ![Marcus Ribeiro ](https://github.com/marcusribeir0.png?size=100) | ![Matheus Farali](https://github.com/matheusfarali.png?size=100) | ![Jeferson Santos](https://github.com/worshx.png?size=100) | ![Gustavo Marinho](https://github.com/marinhogustavo.png?size=100) |
+| ------------------------------------------------------ | ----------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------ |
+| [Eder Lima](https://github.com/asynched)               | [Marcus Ribeiro ](https://github.com/marcusribeir0)               | [Matheus Farali](https://github.com/matheusfarali)               | [Jeferson Santos](https://github.com/worshx)               | [Gustavo Marinho](https://github.com/marinhogustavo)               |
