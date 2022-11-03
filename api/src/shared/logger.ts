@@ -9,7 +9,8 @@ class Logger {
 
     console.log(
       chalk.green(`[${this.prefix}] ${pid} -`),
-      chalk.gray(timestamp.toLocaleTimeString() + ' -'),
+      chalk.gray(timestamp.toLocaleString()),
+      chalk.green('-'),
       chalk.yellow(namespace ? `[${namespace}]` : ''),
       chalk.green(message)
     )
@@ -20,7 +21,8 @@ class Logger {
 
     console.log(
       chalk.red(`[${this.prefix}] ${pid} -`),
-      chalk.gray(timestamp.toLocaleTimeString() + ' -'),
+      chalk.gray(timestamp.toLocaleString()),
+      chalk.red('-'),
       chalk.yellow(namespace ? `[${namespace}]` : ''),
       chalk.red(message)
     )
@@ -31,7 +33,8 @@ class Logger {
 
     console.log(
       chalk.yellow(`[${this.prefix}] ${pid} -`),
-      chalk.gray(timestamp.toLocaleTimeString() + ' -'),
+      chalk.gray(timestamp.toLocaleString()),
+      chalk.yellow('-'),
       chalk.yellow(namespace ? `[${namespace}]` : ''),
       chalk.yellow(message)
     )
