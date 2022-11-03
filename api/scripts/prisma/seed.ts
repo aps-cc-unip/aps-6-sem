@@ -6,7 +6,7 @@ const repeat = <T>(length: number, generator: () => T): T[] => {
   return Array.from({ length }, generator)
 }
 
-const rootPath = resolve(join(__dirname, '..', '..', '..', 'uploads'))
+const rootPath = resolve(join(__dirname, '..', '..', '..', 'auth', 'uploads'))
 
 console.log(rootPath)
 
