@@ -1,53 +1,29 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Navigate } from 'react-router-dom'
+
+import { useBox } from '@/lib/blackbox'
+import { authBox } from '@/stores/auth'
+import { Role } from '@/domain/entities'
+import { requiresLevel } from '@/domain/auth'
+
 import { formatDate } from '@/utils/date'
 
 import DashboardLayout from '@/layout/DashboardLayout'
 import 'leaflet/dist/leaflet.css'
-
-const incidents = [
-  {
-    description: 'Sonegação de imposto de renda',
-    date: new Date(),
-    position: {
-      lat: -23.160076193356563,
-      long: -47.05739514345998,
-    },
-  },
-  {
-    description: 'Uso de agrotóxicos em excesso',
-    date: new Date(),
-    position: {
-      lat: -23.008679231316524,
-      long: -46.85826556072969,
-    },
-  },
-  {
-    description: 'Registros de xenofobia',
-    date: new Date(),
-    position: {
-      lat: -23.152113147435475,
-      long: -47.056259022500505,
-    },
-  },
-  {
-    description: 'Abuso de autoridade (LGPD)',
-    date: new Date(),
-    position: {
-      lat: -23.301872061332467,
-      long: -46.743842998774355,
-    },
-  },
-  {
-    description: 'Sonegação em importação de consoles',
-    date: new Date(),
-    position: {
-      lat: -23.12982645131587,
-      long: -47.05416000220182,
-    },
-  },
-]
+import { useQuery } from '@tanstack/react-query'
+import { getIncidents } from '@/services/api/incidents'
 
 export default function Incidents() {
+  const auth = useBox(authBox)
+  const user = auth.user!
+  const { data: incidents } = useQuery(['incidents'], getIncidents, {
+    initialData: [],
+  })
+
+  if (!requiresLevel(Role.MINISTER, user.role)) {
+    return <Navigate to="/app/home" />
+  }
+
   return (
     <DashboardLayout title="Test">
       <h1 className="mb-2 text-4xl font-bold tracking-tighter">Propriedades</h1>
@@ -56,8 +32,8 @@ export default function Incidents() {
       </p>
       <MapContainer
         center={{
-          lat: incidents[0].position.lat,
-          lng: incidents[0].position.long,
+          lat: -23.16007619335656,
+          lng: -47.05739514345998,
         }}
         zoom={10}
         scrollWheelZoom={true}
@@ -67,17 +43,17 @@ export default function Incidents() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {incidents.map((incidents, index) => (
+        {incidents.map((incident) => (
           <Marker
-            key={index}
+            key={incident.id}
             position={{
-              lat: incidents.position.lat,
-              lng: incidents.position.long,
+              lat: incident.latitude,
+              lng: incident.longitude,
             }}
           >
             <Popup>
-              {incidents.description} <br />
-              Ocorrido em: {formatDate(incidents.date)}
+              {incident.title} <br />
+              Ocorrido em: {formatDate(incident.createdAt)}
             </Popup>
           </Marker>
         ))}

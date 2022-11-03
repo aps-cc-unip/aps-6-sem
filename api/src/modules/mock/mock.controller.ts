@@ -5,7 +5,7 @@ import { requiresAuth } from '@/middlewares/auth.middleware'
 export const mockRouter = Router()
 const mockService = MockService.fromDefaults()
 
-mockRouter.get('/users', requiresAuth('ADMIN'), (_req, res) => {
+mockRouter.get('/users', requiresAuth('DIRECTOR'), (_req, res) => {
   const users = mockService.getUsers()
   res.setHeader('cache-control', 'private,max-age=120').json(users)
 })

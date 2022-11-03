@@ -9,7 +9,7 @@ class Logger {
 
     console.log(
       chalk.green(`[${this.prefix}] ${pid} -`),
-      chalk.gray(timestamp.toLocaleTimeString() + '  '),
+      chalk.gray(timestamp.toLocaleTimeString() + ' -'),
       chalk.yellow(namespace ? `[${namespace}]` : ''),
       chalk.green(message)
     )
@@ -19,8 +19,8 @@ class Logger {
     const timestamp = new Date()
 
     console.log(
-      chalk.red(`${this.prefix} ${pid}\t -`),
-      chalk.gray(timestamp.toLocaleTimeString()),
+      chalk.red(`[${this.prefix}] ${pid} -`),
+      chalk.gray(timestamp.toLocaleTimeString() + ' -'),
       chalk.yellow(namespace ? `[${namespace}]` : ''),
       chalk.red(message)
     )
@@ -30,8 +30,8 @@ class Logger {
     const timestamp = new Date()
 
     console.log(
-      chalk.yellow(`${this.prefix} ${pid}\t -`),
-      chalk.gray(timestamp.toLocaleTimeString()),
+      chalk.yellow(`[${this.prefix}] ${pid} -`),
+      chalk.gray(timestamp.toLocaleTimeString() + ' -'),
       chalk.yellow(namespace ? `[${namespace}]` : ''),
       chalk.yellow(message)
     )

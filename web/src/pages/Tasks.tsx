@@ -44,16 +44,16 @@ export default function Tasks() {
                   <td className="border-r px-4 py-2">
                     <span
                       className={`rounded-full py-[0.125rem] px-2 text-xs text-white ${
-                        task.priority === 'high'
+                        task.priority === 'HIGH'
                           ? 'bg-rose-600'
-                          : task.priority === 'medium'
+                          : task.priority === 'MEDIUM'
                           ? 'bg-purple-600'
                           : 'bg-blue-600'
                       }`}
                     >
-                      {task.priority === 'high'
+                      {task.priority === 'HIGH'
                         ? 'Alta'
-                        : task.priority === 'medium'
+                        : task.priority === 'MEDIUM'
                         ? 'Média'
                         : 'Baixa'}
                     </span>

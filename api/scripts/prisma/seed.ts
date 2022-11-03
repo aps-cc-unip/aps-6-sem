@@ -1,9 +1,14 @@
 import { PrismaClient, TaskPriority } from '@prisma/client'
 import { faker } from '@faker-js/faker'
+import { resolve, join } from 'node:path'
 
 const repeat = <T>(length: number, generator: () => T): T[] => {
   return Array.from({ length }, generator)
 }
+
+const rootPath = resolve(join(__dirname, '..', '..', '..', 'uploads'))
+
+console.log(rootPath)
 
 const seedUsers = async (client: PrismaClient) => {
   console.log('Inserting users')
@@ -11,38 +16,41 @@ const seedUsers = async (client: PrismaClient) => {
     {
       name: 'Clayton Valdo',
       email: 'clayton@mail.com',
-      password: './uploads/clayton.png',
+      password: join(rootPath, 'clayton.png'),
       role: 'MINISTER',
       tasks: [
         {
           title: 'Corrigir prova',
           description: 'Corrigir prova de Aspectos Teóricos da Computação',
           priority: TaskPriority.HIGH,
+          completed: true,
         },
         {
           title: 'Preparar matéria de aula',
           description: 'Preparar aula de Processamento de Imagem',
           priority: TaskPriority.MEDIUM,
+          completed: true,
         },
       ],
     },
     {
       name: 'Eder Oliveira Lima',
       email: 'eder@mail.com',
-      password: './uploads/eder.jpg',
+      password: join(rootPath, 'eder.jpeg'),
       role: 'MINISTER',
       tasks: [
         {
           title: '[APS] Desenvolver back-end',
           description: 'Desenvolver back-end da APS',
           priority: TaskPriority.HIGH,
+          completed: true,
         },
       ],
     },
     {
       name: 'Gustavo Marinho',
       email: 'gustavo@mail.com',
-      password: './uploads/gustavo.jpg',
+      password: join(rootPath, 'gustavo.jpeg'),
       role: 'MINISTER',
       tasks: [
         {
@@ -54,13 +62,14 @@ const seedUsers = async (client: PrismaClient) => {
           title: '[APS] Documentar o sistema de autenticação',
           description: 'Documentar o sistema de autenticação',
           priority: TaskPriority.HIGH,
+          completed: true,
         },
       ],
     },
     {
       name: 'Matheus Farali',
       email: 'matheus@mail.com',
-      password: './uploads/matheus.jpg',
+      password: join(rootPath, 'matheus.jpeg'),
       role: 'MINISTER',
       tasks: [
         {
@@ -72,13 +81,14 @@ const seedUsers = async (client: PrismaClient) => {
           title: '[APS] Revisar o sistema de autenticação',
           description: 'Revisar o sistema de autenticação',
           priority: TaskPriority.LOW,
+          completed: true,
         },
       ],
     },
     {
       name: 'Marcus Vinícius',
       email: 'marcus@mail.com',
-      password: './uploads/marcus.jpg',
+      password: join(rootPath, 'marcus.jpeg'),
       role: 'MINISTER',
       tasks: [
         {
@@ -90,13 +100,14 @@ const seedUsers = async (client: PrismaClient) => {
           title: '[APS] Desenvolvimento da página de cadastro',
           description: 'Desenvolvimento da página de cadastro',
           priority: TaskPriority.HIGH,
+          completed: true,
         },
       ],
     },
     {
-      name: 'Jefferson dos Santos',
-      email: 'jefferson@mail.com',
-      password: './uploads/jefferson.jpg',
+      name: 'Jeferson dos Santos',
+      email: 'jeferson@mail.com',
+      password: join(rootPath, 'jeferson.jpeg'),
       role: 'MINISTER',
       tasks: [
         {
@@ -109,33 +120,35 @@ const seedUsers = async (client: PrismaClient) => {
     {
       name: 'Lucas Cardoso',
       email: 'lucas@mail.com',
-      password: './uploads/lucas.jpg',
+      password: join(rootPath, 'lucas.jpeg'),
       role: 'DIRECTOR',
       tasks: [
         {
           title: '[MARKETING] Reunião com o cliente',
           description: 'Reunião com o cliente para apresentar o projeto',
           priority: TaskPriority.HIGH,
+          completed: true,
         },
       ],
     },
     {
       name: 'Paulo Domingues',
       email: 'paulo@mail.com',
-      password: './uploads/paulo.jpg',
+      password: join(rootPath, 'paulo.jpeg'),
       role: 'DIRECTOR',
       tasks: [
         {
           title: '[MARKETING] Reunião com o cliente',
           description: 'Reunião com o cliente para apresentar o projeto',
           priority: TaskPriority.HIGH,
+          completed: true,
         },
       ],
     },
     {
       name: 'Vitor Pacheco',
       email: 'vitor@mail.com',
-      password: './uploads/vitor.jpg',
+      password: join(rootPath, 'vitor.jpeg'),
       role: 'USER',
       tasks: [
         {
@@ -148,7 +161,7 @@ const seedUsers = async (client: PrismaClient) => {
     {
       name: 'Vanessa Molinari',
       email: 'vanessa@mail.com',
-      password: './uploads/vanessa.jpg',
+      password: join(rootPath, 'vanessa.jpeg'),
       role: 'USER',
       tasks: [
         {
@@ -160,6 +173,7 @@ const seedUsers = async (client: PrismaClient) => {
     },
   ]
 
+  await client.task.deleteMany()
   await client.user.deleteMany()
 
   await Promise.all(
@@ -283,6 +297,8 @@ const main = async () => {
     seedInvoices(client),
     seedIncidents(client),
   ])
+
+  await client.$disconnect()
 }
 
 main()

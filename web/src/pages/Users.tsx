@@ -1,12 +1,13 @@
 import { Navigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
-import { Role } from '@/domain/entities'
+import { Role, RolePriority } from '@/domain/entities'
 import { useBox } from '@/lib/blackbox'
 import { authBox } from '@/stores/auth'
 import { getUsers } from '@/services/api/users'
 
 import DashboardLayout from '@/layout/DashboardLayout'
+import { requiresLevel } from '@/domain/auth'
 
 export default function Users() {
   const auth = useBox(authBox)
@@ -17,7 +18,7 @@ export default function Users() {
     initialData: [],
   })
 
-  if (![Role.ADMIN, Role.DIRECTOR].includes(user.role)) {
+  if (!requiresLevel(Role.DIRECTOR, user.role)) {
     return <Navigate to="/app/home" />
   }
 
@@ -40,8 +41,8 @@ export default function Users() {
                 <td className="border-r px-4 py-2">{user.name}</td>
                 <td className="border-r px-4 py-2">{user.email}</td>
                 <td className="px-4 py-2">
-                  {user.role === Role.ADMIN
-                    ? 'Administrador'
+                  {user.role === Role.MINISTER
+                    ? 'Ministro'
                     : user.role === Role.DIRECTOR
                     ? 'Diretor'
                     : 'Usuário'}

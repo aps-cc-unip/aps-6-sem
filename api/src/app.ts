@@ -14,4 +14,6 @@ app.use(loggerMiddleware)
 
 app.use('/', router)
 
-app.listen(3333, () => logger.info('Server started on port :3333', 'Server'))
+app.listen(3333, () => {
+  logger.info('Server started on port :3333', 'Server')
+})

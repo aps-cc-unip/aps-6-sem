@@ -7,6 +7,7 @@ import { Role } from '@/domain/entities'
 import { getInvoices } from '@/services/api/invoices'
 
 import DashboardLayout from '@/layout/DashboardLayout'
+import { requiresLevel } from '@/domain/auth'
 
 export default function Users() {
   const auth = useBox(authBox)
@@ -16,7 +17,7 @@ export default function Users() {
     initialData: [],
   })
 
-  if (user.role !== Role.DIRECTOR) {
+  if (!requiresLevel(Role.DIRECTOR, user.role)) {
     return <Navigate to="/app/home" />
   }
 

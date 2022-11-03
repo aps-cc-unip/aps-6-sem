@@ -1,7 +1,19 @@
 export enum Role {
-  ADMIN = 'ADMIN',
   USER = 'USER',
   DIRECTOR = 'DIRECTOR',
+  MINISTER = 'MINISTER',
+}
+
+export const RolePriority = {
+  [Role.USER]: 0,
+  [Role.DIRECTOR]: 1,
+  [Role.MINISTER]: 2,
+}
+
+export enum TaskPriority {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
 }
 
 export type Task = {
@@ -9,9 +21,9 @@ export type Task = {
   title: string
   description: string
   completed: boolean
+  priority: TaskPriority
   createdAt: string
   updatedAt: string
-  priority: 'low' | 'medium' | 'high'
 }
 
 export type User = {
@@ -19,7 +31,8 @@ export type User = {
   name: string
   email: string
   role: Role
-  tasks: Task[]
+  createdAt: string
+  updatedAt: string
 }
 
 export type Invoice = {
@@ -29,5 +42,15 @@ export type Invoice = {
   department: string
   amount: number
   paid: boolean
-  date: string
+  createdAt: string
+  updatedAt: string
+}
+
+export type Incident = {
+  id: number
+  title: string
+  latitude: number
+  longitude: number
+  createdAt: string
+  updateAt: string
 }

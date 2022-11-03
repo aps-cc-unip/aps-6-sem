@@ -14,7 +14,7 @@ export default function AdminEntryStatistics({
   return (
     <div className="mb-8 grid grid-cols-3 gap-8">
       <Link
-        to="/tasks"
+        to="/app/tasks"
         className="transform rounded bg-gradient-to-r from-orange-400 to-pink-600 p-4 text-white transition duration-300 ease-in-out hover:-translate-y-2 hover:shadow-lg hover:shadow-pink-200"
       >
         <p>Tarefas</p>
@@ -23,14 +23,14 @@ export default function AdminEntryStatistics({
         </h2>
       </Link>
       <Link
-        to="/users"
+        to="/app/users"
         className="transform rounded bg-gradient-to-r from-blue-400 to-indigo-600 p-4 text-white transition duration-300 ease-in-out hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-200"
       >
         <p>Usuários</p>
         <h2 className="text-2xl font-bold tracking-tighter">{users} ativos</h2>
       </Link>
       <Link
-        to="/invoices"
+        to="/app/invoices"
         className="transform rounded bg-gradient-to-r from-red-500 to-purple-600 p-4 text-white transition duration-300 ease-in-out hover:-translate-y-2 hover:shadow-lg hover:shadow-purple-200"
       >
         <p>Faturas</p>
