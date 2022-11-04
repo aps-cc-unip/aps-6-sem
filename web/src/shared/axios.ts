@@ -1,11 +1,11 @@
-import Axios from 'axios'
+import axios from 'axios'
 
-export const api = Axios.create({
-  baseURL: 'http://localhost:3333/api',
+export const api = axios.create({
+  baseURL: import.meta.env.VITE_APP_DATA_API,
 })
 
-export const auth = Axios.create({
-  baseURL: 'http://localhost:3210/api/auth',
+export const auth = axios.create({
+  baseURL: import.meta.env.VITE_APP_AUTH_API,
 })
 
 export const setAuthToken = (token: string) => {

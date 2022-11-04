@@ -26,12 +26,14 @@ O serviço de autenticação foi desenvolvido em Java utilizando o Spring Boot, 
 
 ### API - Serviço de dados
 
-A API foi desenvolvida em NodeJS utilizando o framework Express, onde o usuário envia o token de acesso para liberar seu acesso aos recursos. A aplicação disponibiliza os dados de algumas tabelas cadastradas no banco, como:
+A API foi desenvolvida em Node utilizando o framework NestJS, onde o usuário envia o token de acesso para liberar seu acesso aos recursos. A aplicação disponibiliza os dados de algumas tabelas cadastradas no banco, como:
 
 - Tarefas
 - Usuários
 - Faturas
 - Incidentes
+
+Ela segue os padrões REST para disponibilização dos dados, onde o usuário pode fazer requisições para obter os dados de cada recurso através dos endpoints definidos pelo projeto.
 
 ### Web - Aplicação web
 
@@ -72,7 +74,8 @@ npm install # Instala as dependências do projeto
 Após a instalação das dependências, é necessário migrar as tabelas para o banco de dados, para fazer isso execute:
 
 ```sh
-npm prisma db push # Migra a definição das tabelas para o banco de dados
+npm prisma db push  # Migra a definição das tabelas para o banco de dados
+npm prisma generate # Gera os arquivos necessários para o funcionamento do banco com a aplicação
 ```
 
 Após a migração das tabelas, é necessário popular o banco de dados com alguns dados, para isso execute:
