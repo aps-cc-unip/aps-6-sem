@@ -1,15 +1,18 @@
 declare namespace Express {
-  type User = {
-    id: number
-    email: string
-    name: string
-    role: string
-
-    createdAt: Date
-    updatedAt: Date
+  enum Role {
+    USER = 'USER',
+    DIRECTOR = 'DIRECTOR',
+    MINISTER = 'MINISTER',
   }
 
-  interface Request {
-    user: User
+  export interface Request {
+    user: {
+      id: number
+      name: string
+      email: string
+      role: Role
+      createdAt: string
+      updatedAt: string
+    }
   }
 }
