@@ -1,0 +1,24 @@
+name: 'Deploy application to server'
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    environment: production
+
+    steps:
+      - name: 'Download repository'
+        uses: actions/checkout@v3
+
+      - name: Deploy to host
+        uses: easingthemes/ssh-deploy@main
+        env:
+          ARGS: -rltgoDzvO
+          SOURCE: ./
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.TARGET }}
