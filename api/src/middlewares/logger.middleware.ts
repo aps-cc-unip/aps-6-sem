@@ -1,31 +1,26 @@
-import chalk from 'chalk'
-import { Handler } from 'express'
-import { logger } from '@/shared/logger'
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common'
+import { NextFunction, Request, Response } from 'express'
 
-export const loggerMiddleware: Handler = (req, res, next) => {
-  const start = Date.now()
-  const url = req.url
-  const method = req.method
-  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+@Injectable()
+export class LoggerMiddleware implements NestMiddleware {
+  constructor(private readonly logger: Logger) {}
 
-  logger.info(`${method} ${url} ${ip}`, 'Routes')
+  use(req: Request, res: Response, next: NextFunction) {
+    const context = 'LoggerMiddleware'
+    const message = `${req.method} ${req.url} ${req.socket.remoteAddress}`
 
-  req.on('close', () => {
-    const end = Date.now()
-    const duration = chalk.yellow(`(${end - start}ms)`)
-    if (res.statusCode >= 400) {
-      logger.error(
-        `${method} ${url} ${ip} ${res.statusCode} ${duration}`,
-        'Routes'
-      )
-      return
-    }
+    this.logger.log(message, context)
 
-    logger.info(
-      `${method} ${url} ${ip} ${res.statusCode} ${duration}`,
-      'Routes'
-    )
-  })
+    req.on('end', () => {
+      const message = `${req.method} ${req.url} ${req.socket.remoteAddress} ${res.statusCode}`
 
-  next()
+      if (res.statusCode >= 400) {
+        return this.logger.error(message, context)
+      }
+
+      this.logger.log(message, context)
+    })
+
+    next()
+  }
 }
