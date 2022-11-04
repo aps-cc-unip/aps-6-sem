@@ -8,8 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    environment: production
-
     steps:
       - name: 'Download repository'
         uses: actions/checkout@v3
