@@ -12,7 +12,7 @@ export default function AdminEntryStatistics({
   users,
 }: AdminEntryStatisticsProps) {
   return (
-    <div className="mb-8 grid grid-cols-3 gap-8">
+    <div className="mb-8 grid gap-4 lg:grid-cols-3 lg:gap-8">
       <Link
         to="/app/tasks"
         className="transform rounded bg-gradient-to-r from-orange-400 to-pink-600 p-4 text-white transition duration-300 ease-in-out hover:-translate-y-2 hover:shadow-lg hover:shadow-pink-200"

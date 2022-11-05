@@ -1,17 +1,30 @@
+import Leaflet from 'leaflet'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { Navigate } from 'react-router-dom'
-
+import { useQuery } from '@tanstack/react-query'
 import { useBox } from '@/lib/blackbox'
+
 import { authBox } from '@/stores/auth'
 import { Role } from '@/domain/entities'
 import { requiresLevel } from '@/domain/auth'
+import { getIncidents } from '@/services/api/incidents'
 
 import { formatDate } from '@/utils/date'
 
 import DashboardLayout from '@/layout/DashboardLayout'
+
 import 'leaflet/dist/leaflet.css'
-import { useQuery } from '@tanstack/react-query'
-import { getIncidents } from '@/services/api/incidents'
+import icon from 'leaflet/dist/images/marker-icon.png'
+import iconRetina from 'leaflet/dist/images/marker-icon-2x.png'
+import iconShadow from 'leaflet/dist/images/marker-shadow.png'
+
+const DefaultIcon = Leaflet.icon({
+  iconUrl: icon,
+  iconRetinaUrl: iconRetina,
+  shadowUrl: iconShadow,
+})
+
+Leaflet.Marker.prototype.options.icon = DefaultIcon
 
 export default function Incidents() {
   const auth = useBox(authBox)
@@ -25,10 +38,10 @@ export default function Incidents() {
   }
 
   return (
-    <DashboardLayout title="Test">
-      <h1 className="mb-2 text-4xl font-bold tracking-tighter">Propriedades</h1>
+    <DashboardLayout title="Incidentes">
+      <h1 className="mb-2 text-4xl font-bold tracking-tighter">Incidentes</h1>
       <p className="mb-8">
-        Veja as propriedades que utilizam agrotóxicos proibidos
+        Veja as propriedades com registro de uso de agrotóxicos.
       </p>
       <MapContainer
         center={{

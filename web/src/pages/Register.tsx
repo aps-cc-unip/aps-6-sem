@@ -28,8 +28,6 @@ export default function Register() {
     const form = document.forms[0]!
     const data = new FormData(form)
 
-    console.log(Object.fromEntries(data.entries()))
-
     try {
       await register(data)
       navigate('/')

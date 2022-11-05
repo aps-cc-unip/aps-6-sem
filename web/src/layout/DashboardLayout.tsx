@@ -11,10 +11,10 @@ export default function DashboardLayout({
   title,
 }: DashboardLayoutProps) {
   return (
-    <div className="flex h-screen w-full text-gray-800">
+    <div className="relative flex h-screen w-full text-gray-800">
       <Title>APS | {title}</Title>
       <DashboardSidenav />
-      <main className="max-h-screen flex-1 overflow-y-auto bg-gray-100 py-8">
+      <main className="pb-24 max-h-screen flex-1 overflow-y-auto bg-gray-100 pt-8 lg:pb-8">
         <div className="mx-auto w-[90%] max-w-screen-xl">{children}</div>
       </main>
     </div>

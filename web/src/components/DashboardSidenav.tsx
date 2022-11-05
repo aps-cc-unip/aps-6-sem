@@ -25,25 +25,26 @@ export default function DashboardSidenav() {
   }
 
   return (
-    <nav className="flex h-full w-16 flex-col bg-gray-900">
+    <nav className="z-[9999] absolute bottom-0 w-full flex h-16 md:static md:h-full md:w-16 md:flex-col bg-gray-900">
       <SidenavLink
         icon={HomeIcon}
         title="Dashboard"
-        className="bg-gradient-to-br from-sky-400 to-blue-600"
+        className="grid bg-gradient-to-br from-sky-400 to-blue-600"
         link="/app/home"
       />
       <SidenavLink
         icon={RectangleStackIcon}
+        className="grid"
         title="Tarefas"
         link="/app/tasks"
       />
-      <SidenavLink icon={UserGroupIcon} title="Usuários" link="/app/users" />
-      <SidenavLink icon={BanknotesIcon} title="Faturas" link="/app/invoices" />
-      <SidenavLink icon={MapPinIcon} title="Incidentes" link="/app/incidents" />
-      <SidenavLink icon={UserPlusIcon} title="Admin" link="/app/admin" />
+      <SidenavLink className="grid" icon={UserGroupIcon} title="Usuários" link="/app/users" />
+      <SidenavLink className="grid" icon={BanknotesIcon} title="Faturas" link="/app/invoices" />
+      <SidenavLink className="grid" icon={MapPinIcon} title="Incidentes" link="/app/incidents" />
+      <SidenavLink className="hidden sm:grid" icon={UserPlusIcon} title="Admin"  link="/app/admin" />
       <SidenavLink
         icon={ArrowRightOnRectangleIcon}
-        className="mt-auto"
+        className="grid ml-auto md:mt-auto"
         title="Sair"
         onClick={handleSignOut}
         link="/"
@@ -72,7 +73,7 @@ const SidenavLink: React.FC<SidenavLinkProps> = ({
       to={link}
       title={title}
       onClick={onClick && onClick}
-      className={'grid h-16 w-16 place-items-center ' + className || ''}
+      className={'h-16 w-16 place-items-center ' + className || ''}
     >
       {<Icon className="h-8 w-8 text-white" />}
     </Link>

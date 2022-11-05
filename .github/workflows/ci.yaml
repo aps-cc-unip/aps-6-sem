@@ -1,4 +1,4 @@
-name: 'Deploy application to server'
+name: Deploy application to server
 
 on:
   push:
@@ -7,10 +7,29 @@ on:
 
 jobs:
   build:
+    name: Build application
     runs-on: ubuntu-20.04
     steps:
-      - name: 'Download repository'
+      - name: Download repository
         uses: actions/checkout@v3
+
+      - name: Build front-end app
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+        run: |
+          cd web
+          yarn install
+          yarn build
+
+      - name: Build back-end app
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+        run: |
+          cd api
+          yarn install
+          yarn build
 
       - name: Deploy to host
         uses: easingthemes/ssh-deploy@main
@@ -21,3 +40,11 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.TARGET }}
+
+      - name: Move build to target folder
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          script: |
+            mv /root/apps/projects/aps/web/dist /var/www/html/aps

@@ -24,7 +24,7 @@ export default function AdminTasksAndInvoicesStats({
   invoices,
 }: AdminTasksAndInvoicesStatsProps) {
   return (
-    <div className="grid grid-cols-2 gap-8">
+    <div className="grid lg:grid-cols-2 gap-8">
       <div className="rounded bg-white p-8 shadow-xl shadow-gray-300">
         <h1 className="mb-2 text-3xl font-bold tracking-tighter">Tarefas</h1>
         <p className="mb-4">

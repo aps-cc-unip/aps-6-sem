@@ -21,7 +21,6 @@ export const setToken = (token: string) => {
 }
 
 export const setUser = (user: User) => {
-  console.log(user.role)
   authBox.set({
     user,
   })
@@ -47,11 +46,8 @@ export const revalidateAuthState = async (
       callback()
     }
 
-    console.log('Resetting validation')
     setValidating(false)
   } finally {
-    console.log('Resetting validation')
-
     setValidating(false)
   }
 }

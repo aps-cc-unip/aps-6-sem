@@ -13,8 +13,8 @@ export default function Tasks() {
     <DashboardLayout title="Tarefas">
       <h1 className="mb-2 text-4xl font-bold tracking-tighter">Tarefas</h1>
       <p className="mb-8">Confira a listagem de tarefas abaixo</p>
-      {tasks && (
-        <table className="mb-4 w-full overflow-hidden rounded bg-white shadow-xl">
+      <div className="overflow-x-auto rounded shadow-xl">
+        <table className="w-full  bg-white">
           <thead>
             <tr className="bg-gradient-to-r from-sky-500 to-blue-600 text-left font-normal text-white">
               <th className="px-4 py-2">Finalizada</th>
@@ -45,9 +45,9 @@ export default function Tasks() {
                     <span
                       className={`rounded-full py-[0.125rem] px-2 text-xs text-white ${
                         task.priority === 'HIGH'
-                          ? 'bg-rose-600'
+                          ? 'bg-red-600'
                           : task.priority === 'MEDIUM'
-                          ? 'bg-purple-600'
+                          ? 'bg-yellow-500'
                           : 'bg-blue-600'
                       }`}
                     >
@@ -66,7 +66,7 @@ export default function Tasks() {
               ))}
           </tbody>
         </table>
-      )}
+      </div>
     </DashboardLayout>
   )
 }
