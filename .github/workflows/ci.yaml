@@ -47,4 +47,5 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            rm -rf /var/www/html/aps
             mv /root/apps/projects/aps/web/dist /var/www/html/aps
