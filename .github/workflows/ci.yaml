@@ -13,21 +13,19 @@ jobs:
       - name: Download repository
         uses: actions/checkout@v3
 
-      - name: Build front-end app
+      - name: Install Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
+
+      - name: Build front-end app
         run: |
           cd web
           yarn install
           yarn build
 
       - name: Build back-end app
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-        run: |
-          cd api
+        run: cd api
           yarn install
           yarn build
 
