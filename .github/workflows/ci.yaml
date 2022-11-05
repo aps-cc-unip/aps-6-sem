@@ -49,5 +49,3 @@ jobs:
           script: |
             rm -rf /var/www/html/aps
             mv /root/apps/projects/aps/web/dist /var/www/html/aps
-            pm2 reload aps_api
-            pm2 reload aps_web
