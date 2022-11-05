@@ -25,6 +25,10 @@ export default function Login() {
       const data = await login(formData)
       const token = data.token
 
+      if (!token) {
+        throw new Error('Token is missing')
+      }
+
       setAuthToken(token)
       setJwtToken(token)
       revalidateAuthState(token, () => navigate('/app/home'))
