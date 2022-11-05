@@ -9,17 +9,21 @@ export class LoggerMiddleware implements NestMiddleware {
     const now = Date.now()
     const context = 'LoggerMiddleware'
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
-    const message = `${req.method} ${req.url} ${ip}`
+    const message = `${req.method} ${req.originalUrl} ${ip}`
 
     this.logger.log(message, context)
 
     req.on('end', () => {
       const end = Date.now()
       const time = end - now
-      const message = `${req.method} ${req.url} ${ip} ${res.statusCode} took ${time}ms`
+      const message = `${req.method} ${req.originalUrl} ${ip} ${res.statusCode} took ${time}ms`
 
       if (res.statusCode >= 400) {
         return this.logger.error(message, context)
+      }
+
+      if (time >= 50) {
+        return this.logger.warn(message, context)
       }
 
       this.logger.log(message, context)
