@@ -1,7 +1,7 @@
 const jwtTokenKey = '@aps:jwt-token'
 
 export const getJwtToken = () => {
-  return JSON.parse(localStorage.getItem(jwtTokenKey) || 'undefined')
+  return localStorage.getItem(jwtTokenKey) || null
 }
 
 export const setJwtToken = (token: string) => {
