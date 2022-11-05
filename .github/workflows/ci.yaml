@@ -25,7 +25,8 @@ jobs:
           yarn build
 
       - name: Build back-end app
-        run: cd api
+        run: |
+          cd api
           yarn install
           yarn build
 
