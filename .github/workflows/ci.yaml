@@ -18,13 +18,13 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Build front-end app
+      - name: (front-end) Build front-end app
         run: |
           cd web
           yarn install
           yarn build
 
-      - name: Build back-end app
+      - name: (back-end) Build back-end app
         run: |
           cd api
           yarn install
@@ -40,10 +40,11 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.TARGET }}
 
-      - name: Move build to target folder
+      - name: (front-end) Move build to target folder
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             mv /root/apps/projects/aps/web/dist /var/www/html/aps
